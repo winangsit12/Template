@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head >
+    <meta charset="UTF-8">
+    <title>Tamplate</title>
+    <link rel="stylesheet" th:href="@{/css/style-portal.css}" />
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script th:src="@{/js/script.js}" defer></script>
+</head>
+<body>
+    <header th:fragment="header">
+        <div>
+            <h1>Simurgh</h1>
+            <span>Demo Multi Finance</span>
+        </div>
+        <div>Welcome, User</div>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a th:href="@{/template1}">Template 1</a></li>
+                <li><a th:href="@{/template2}">Template 2</a></li>
+                <!-- Dropdown for Master -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Master</a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/tipeMaster}">Tipe Master</a></li>
+                        <li><a th:href="@{/produk}">Produk</a></li>
+                        <li><a th:href="@{/cabang}">Cabang</a></li>
+                        <li><a th:href="@{/identitas}">Identitas</a></li>
+                        <li><a th:href="@{/bank}">Bank</a></li>
+                        <li><a href="../usermanagement/master-jabatan.html">Kelurahan</a></li>
+                        <li><a href="../usermanagement/master-role.html">Kecamatan</a></li>
+                        <li><a href="../usermanagement/master-user.html">Kabupaten</a></li>
+                        <li><a href="../usermanagement/master-user.html">Provinsi</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Transaksi</a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/tipeMaster}">Tipe Master</a></li>
+                        <li><a th:href="@{/produk}">Produk</a></li>
+                        <li><a th:href="@{/cabang}">Cabang</a></li>
+                        <li><a th:href="@{/identitas}">Identitas</a></li>
+                        <li><a th:href="@{/bank}">Bank</a></li>
+                        <li><a href="../usermanagement/master-jabatan.html">Kelurahan</a></li>
+                        <li><a href="../usermanagement/master-role.html">Kecamatan</a></li>
+                        <li><a href="../usermanagement/master-user.html">Kabupaten</a></li>
+                        <li><a href="../usermanagement/master-user.html">Provinsi</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main>
+            <div class="table-container">
+                <h3>
+                    <a th:href="@{/template1}"> Template 1 </a>
+                </h3>
+                <a class="black-button create-button" th:href="@{/template1/form}">
+                    Tambah
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </a>
+                <div id="part1" class="form-part">
+                    <button type="button" class="toggle-btn" onclick="togglePart('part1')">Filter</button>
+                    <div class="form-content">
+                        <form method="get" class="filter" th:action="@{/template1}">
+                            <button class="filter-button" type="button"><i class="fas fa-plus"></i></button>
+                            <button class="filter-button" type="button"><i class="fas fa-trash-alt"></i></button>
+                            <select name="filter" id="filter">
+                                <option th:value="null">No Specific</option>
+                                <option th:each="filter : ${filterItem}"
+                                        th:object="${filter}"
+                                        th:text="*{name}"
+                                        th:value="*{value}"></option>
+                            </select>
+                            <div class="search-container">
+                                <input type="text" id="search" name="search" placeholder="" th:attr="value=${search}" autocomplete="false">
+                                <div class="suggestions"></div>
+                            </div>
+                            <button class="filter-button" type="submit">
+                                Tampilkan
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>    
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  th:each="template1:${template1Grid}" th:object="${template1}">
+                        <td class="action">
+                            <a class="action-button detail-button" th:href="@{/template1/detail(id=*{kode})}">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i> lihat
+                            </a>
+                        </td>
+                        <td th:text="*{kode}"></td>
+                        <td th:text="*{nama}"></td>
+                        <td th:text="*{status}"></td>
+                    </tr>
+                    <tr th:if="${#lists.size(template1Grid)}==0">
+                        <td colspan="7">Data Tidak Ditemukan</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <div class="pagination" th:if="${#lists.size(template1Grid)}!=0">
+                                <div>
+                                    <a th:href="@{/template1(page=1, filter=${filter}, search=${search})}"
+                                       th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&laquo;</a>
+    
+                                    <a th:href="@{/template1(page=${currentPage - 1}, filter=${filter}, search=${search} )}"
+                                       th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&lt;</a>
+    
+                                    <span th:text="|Page ${currentPage} of ${totalPages}|"></span>
+    
+                                    <a th:href="@{/template1(page=${currentPage + 1}, filter=${filter}, search=${search})}"
+                                       th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&gt;</a>
+    
+                                    <a th:href="@{/template1(page=${totalPages}, filter=${filter}, search=${search})}"
+                                       th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&raquo;</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head >
+    <meta charset="UTF-8">
+    <title>Tamplate</title>
+    <link rel="stylesheet" th:href="@{/css/style-portal.css}" />
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script th:src="@{/js/script.js}" defer></script>
+</head>
+<body>
+    <header th:fragment="header">
+        <div>
+            <h1>Simurgh</h1>
+            <span>Demo Multi Finance</span>
+        </div>
+        <div>Welcome, User</div>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a th:href="@{/template1}">Template 1</a></li>
+                <li><a th:href="@{/template2}">Template 2</a></li>
+                <!-- Dropdown for Master -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Master</a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/tipeMaster}">Tipe Master</a></li>
+                        <li><a th:href="@{/produk}">Produk</a></li>
+                        <li><a th:href="@{/cabang}">Cabang</a></li>
+                        <li><a th:href="@{/identitas}">Identitas</a></li>
+                        <li><a th:href="@{/bank}">Bank</a></li>
+                        <li><a href="../usermanagement/master-jabatan.html">Kelurahan</a></li>
+                        <li><a href="../usermanagement/master-role.html">Kecamatan</a></li>
+                        <li><a href="../usermanagement/master-user.html">Kabupaten</a></li>
+                        <li><a href="../usermanagement/master-user.html">Provinsi</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Transaksi</a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/tipeMaster}">Tipe Master</a></li>
+                        <li><a th:href="@{/produk}">Produk</a></li>
+                        <li><a th:href="@{/cabang}">Cabang</a></li>
+                        <li><a th:href="@{/identitas}">Identitas</a></li>
+                        <li><a th:href="@{/bank}">Bank</a></li>
+                        <li><a href="../usermanagement/master-jabatan.html">Kelurahan</a></li>
+                        <li><a href="../usermanagement/master-role.html">Kecamatan</a></li>
+                        <li><a href="../usermanagement/master-user.html">Kabupaten</a></li>
+                        <li><a href="../usermanagement/master-user.html">Provinsi</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <main>
+            <div class="table-container" th:object="${template1ByIdGrid}">
+                <h3>
+                    <a th:href="@{/template1}"> Template 1 </a>
+                    <span th:switch="*{id}">
+                        <span th:case="null"> > Tambah</span>
+                        <span th:case="*{id}"> > Ubah</span>
+                    </span>
+                </h3>
+                <form method="post" class="upsert-form" th:attr="action=@{/template1/form}" th:object="${template1ByIdGrid}">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                    <input th:if="*{id}==null" type="hidden" th:field="*{id}">
+                    <table>
+                        <tbody>
+                        <tr th:if="*{kode}!=null">
+                            <td><label class="label-nama">Kode</label></td>
+                            <td>
+                                <input type="text" th:field="*{kode}" readOnly>
+                                <div class="field-validation-error"></div>
+                            </td>
+                        </tr>
+    
+                        <tr>
+                            <td><label class="label-nama">Nama *</label></td>
+                            <td>
+                                <input id="nama" name="nama" type="text" th:field="*{nama}" required>
+                                <div class="field-validation-error"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label class="label-nama">Status*</label></td>
+                            <td class="input-box">
+                                <input th:field="*{status}" type="radio" name="status" id="status-aktif" value="1" required>
+                                <label for="status-aktif">Aktif</label>
+                                <input th:field="*{status}" type="radio" name="status" id="status-tidak-aktif" value="0" required>
+                                <label for="status-tidak-aktif">Tidak Aktif</label>
+                                <div class="field-validation-error" id="error-status"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="part1" class="form-part">
+                        <button type="button" class="toggle-btn" onclick="togglePart('part1')">Template 2</button>
+                        <div class="form-content">
+                            <table>
+                                <tbody>
+                                <!-- Divisi (Dropdown) -->
+                                <tr>
+                                    <td><label class="label-nama">Kode</label></td>
+                                    <td>
+                                        <input id="kode" name="kode" type="text" th:field="*{kode}" value="C3" readonly>
+                                        <div class="field-validation-error"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="label-nama">Nama *</label></td>
+                                    <td>
+                                        <input id="nama" name="nama" type="text" th:field="*{nama}" value="Data C3" readonly>
+                                        <div class="field-validation-error"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="label-nama">Tanggal</label></td>
+                                    <td>
+                                        <input id="tanggal" name="tanggal" type="text" th:field="*{tanggal}" value="01 Januari 2025" readonly>
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <div class="field-validation-error"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="label-nama">Harga</label></td>
+                                    <td>
+                                        <div class="price-group">
+                                            <span>Rp.</span>
+                                            <input id="harga" name="harga" type="text" th:field="*{harga}" value="2.000" readonly>
+                                        </div>
+                                        <div class="field-validation-error"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="label-nama">Diskon</label></td>
+                                    <td>
+                                        <div class="price-group">
+                                            <input id="diskon" name="diskon" type="text" th:field="*{diskon}" value="20" readonly>
+                                            <span>%</span>
+                                        </div>
+                                        <div class="field-validation-error"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="label-nama">Status*</label></td>
+                                    <td class="input-box">
+                                        <input th:field="*{status}" type="radio" name="status" id="status-aktif" value="1" required>
+                                        <label for="status-aktif">Aktif</label>
+                                        <input th:field="*{status}" type="radio" name="status" id="status-tidak-aktif" value="0" required>
+                                        <label for="status-tidak-aktif">Tidak Aktif</label>
+                                        <div class="field-validation-error" id="error-status"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button type="submit">Tambah</button>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-button" type="submit">Simpan</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
