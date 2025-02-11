@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layout :: head}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<script th:src="@{/js/template2-detail.js}" defer></script>
+<div class="container">
+    <aside class="sidebar" th:replace="~{layout :: nav}">
+    </aside>
+    <main>
+        <div class="table-container">
+            <h3>
+                <a th:href="@{/template2}">Template 2</a>
+                <span> > </span>
+                <span>Detail</span>
+            </h3>
+            <form method="post" class="upsert-form" action="">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <table th:object="${detailTemplate2Grid}">
+                    <tbody>
+                    <tr>
+                        <td><label class="label-nama">Template 1</label></td>
+                        <td>
+                            <p id="kodeTemplate1" name="kodeTemplate1" th:text="*{kodeTemplate1}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Kode</label></td>
+                        <td>
+                            <p id="kode" name="kode" th:text="*{kode}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Nama</label></td>
+                        <td>
+                            <p id="nama" name="nama" th:text="*{nama}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Tanggal</label></td>
+                        <td>
+                            <p id="tanggal" name="tanggal" th:text="*{tanggal}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Harga</label></td>
+                        <td>
+                            <p id="harga" name="harga" th:text="*{harga}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Diskon</label></td>
+                        <td>
+                            <p id="diskon" name="diskon" th:text="*{diskon}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Status</label></td>
+                        <td>
+                            <p id="status" name="status" th:text="*{status}"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a th:href="@{/template2/form(kode=*{kode})}" class="action-button update-button">
+                                <i class="fas fa-edit" aria-hidden="true"></i> ubah
+                            </a>
+                            <a th:href="@{/template2/delete(kode=*{kode})}" class="action-button delete-button">
+                                <i class="fa fa-trash" aria-hidden="true"></i> hapus
+                            </a>
+                            <a th:href="@{/template2}" class="action-button detail-button">
+                                <i class="fa fa-arrow-left" aria-hidden="true"></i> kembali
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

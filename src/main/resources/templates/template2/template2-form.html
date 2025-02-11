@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layout :: head}">
+</head>
+<body>
+<header th:replace="~{layout :: header}">
+</header>
+<script th:src="@{/js/template2-form.js}" defer></script>
+<div class="container">
+    <aside class="sidebar" th:replace="~{layout :: nav}">
+    </aside>
+    <main>
+        <div class="table-container" th:object="${formTemplate2Grid}" >
+            <h3>
+                <span th:switch="*{kode}">
+                    <span th:case="null">
+                        <a th:href="@{/template2}">Template 2</a> > Tambah
+                    </span>
+                    <span th:case="*{kode}">
+                        <a th:href="@{/template2}">Template 2</a> >
+                        <a th:href="@{/template2/detail(kode=*{kode})}" th:text="*{nama}"></a>
+                         > Ubah
+                    </span>
+                </span>
+            </h3>
+            <form method="post" class="upsert-form" th:attr="action=@{/template2/form}" th:object="${formTemplate2Grid}" >
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <input th:if="*{kode}==null" type="hidden" th:field="*{kode}">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><label class="label-nama">Template 1 *</label></td>
+                        <td>
+                            <div class="search-container">
+                                <input class="search-template1" id="kodeTemplate1" name="kodeTemplate1" type="text" th:field="*{kodeTemplate1}" th:readonly="*{kode} != null" required >
+                                <i class="fas fa-search search-icon" data-target="kodeTemplate1"></i>
+                                <div class="suggestions kodeTemplate1"></div>
+                            </div>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Kode *</label></td>
+                        <td>
+                            <input type="text" th:field="*{kode}" th:readonly="*{kode} != null" required>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Nama *</label></td>
+                        <td>
+                            <input type="text" th:field="*{nama}" required>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Tanggal *</label></td>
+                        <td>
+                            <input type="date" th:value="*{tanggal}" id="tanggal" name="tanggal" required>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Harga *</label></td>
+                        <td>
+                            <div class="input-group">
+                                <span class="prefix">Rp</span>
+                                <input type="text" id="harga" name="harga" th:field="*{harga}" required>
+                            </div>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Diskon</label></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" id="diskon" name="diskon" th:field="*{diskon}">
+                                <span class="suffix">%</span>
+                            </div>
+                            <div class="field-validation-error"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="label-nama">Status *</label></td>
+                        <td class="input-box">
+                            <input th:field="*{status}" type="radio" name="status" id="status-aktif" value="1" required>
+                            <label for="status-aktif">Aktif</label>
+                            <input th:field="*{status}" type="radio" name="status" id="status-tidak-aktif" value="0" required>
+                            <label for="status-tidak-aktif">Tidak Aktif</label>
+                            <div class="field-validation-error" id="error-status"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="submit-button" type="submit">Save</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>
