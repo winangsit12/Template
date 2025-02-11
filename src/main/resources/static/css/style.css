@@ -224,7 +224,8 @@ select {
     width: 100%;
 }
 
-  .suggestions {
+  .suggestions,
+  .pagination-controls {
     position: absolute;
     top: 100%;
     left: 0;
@@ -235,11 +236,13 @@ select {
     overflow-y: auto;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
-  .suggestion-item {
+  .suggestion-item,
+  .pagination-controls button {
     padding: 10px;
     cursor: pointer;
   }
-  .suggestion-item:hover {
+  .suggestion-item:hover,
+  .pagination-controls button:hover {
     background-color: #f0f0f0;
   }
 
@@ -345,10 +348,6 @@ tfoot td {
     color: white;
 }
 
-i {
-    margin-left: 5px;
-}
-
 /*Link*/
 .table-container h3, .detail-container h3, .form-container h3, .delete-container h3{
     padding-bottom: 15px;
@@ -426,7 +425,8 @@ h3 a:hover {
 }
 
 /* Form Container */
-.upsert-form {
+.upsert-form,
+.detail-form {
     background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
     padding: 20px;
     border-radius: 8px;
@@ -439,13 +439,15 @@ h3 a:hover {
 }
 
 /* Table Styles */
-.upsert-form table {
+.upsert-form table,
+.detail-form table {
     width: 100%;
     border-collapse: collapse;
     border: none;
 }
 
-.upsert-form table td {
+.upsert-form table td,
+.detail-form table td {
     padding: 12px 10px;
     font-size: 14px;
     vertical-align: middle;

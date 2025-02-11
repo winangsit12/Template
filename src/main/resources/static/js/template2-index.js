@@ -6,7 +6,6 @@
             let searchDate = filterContainer.querySelector(".search-filter[type='date']");
             let statusContainer = filterContainer.querySelector(".input-radio");
 
-            // Reset tampilan input
             searchText.style.display = "none";
             searchText.removeAttribute("name");
 
@@ -18,7 +17,6 @@
                 radio.removeAttribute("name");
             });
 
-            // Menentukan input yang ditampilkan berdasarkan opsi yang dipilih
             if (["kodeTemplate1", "kode", "nama", "harga", "diskon"].includes(filterSelect.value)) {
                 searchText.style.display = "block";
                 searchText.name = filterSelect.name.replace("filter", "search");
@@ -33,18 +31,16 @@
             }
         }
 
-        // Event listener untuk filter pertama
         let firstFilterSelect = document.querySelector("#filter1");
         firstFilterSelect.addEventListener("change", function () {
             updateFilterInput(this);
         });
 
-        // Event listener untuk menambahkan filter baru
         document.querySelector(".add-filter").addEventListener("click", function () {
             let filterContainer = document.querySelector(".filter-container");
             let existingFilters = filterContainer.querySelectorAll(".filter-input").length;
 
-            if (existingFilters < 7) { // Batasi maksimal 3 filter
+            if (existingFilters < 7) {
                 let newIndex = existingFilters + 1;
                 let newFilter = document.createElement("div");
                 newFilter.classList.add("filter-input");
@@ -74,13 +70,11 @@
                     </div>
                 `;
 
-                // Tambahkan event listener ke select yang baru
                 let newSelect = newFilter.querySelector(".filter-select");
                 newSelect.addEventListener("change", function () {
                     updateFilterInput(this);
                 });
 
-                // Tambahkan event listener ke tombol hapus filter
                 newFilter.querySelector(".remove-filter").addEventListener("click", function () {
                     this.parentElement.remove();
                 });
@@ -89,12 +83,11 @@
             }
         });
 
-        // **PERBAIKAN TERPENTING:** Pastikan hanya mengirim input yang memiliki nilai
         document.querySelector("form").addEventListener("submit", function (event) {
             let inputs = this.querySelectorAll("input, select");
             inputs.forEach((input) => {
                 if (!input.value) {
-                    input.removeAttribute("name"); // Hapus input kosong agar tidak dikirim ke URL
+                    input.removeAttribute("name");
                 }
             });
         });

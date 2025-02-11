@@ -1,11 +1,13 @@
 package com.template.service.template1;
 
-import com.template.dto.FilterOptionDTO;
 import com.template.dto.template1.Template1DetailDTO;
 import com.template.dto.template1.Template1FormDTO;
 import com.template.dto.template1.Template1IndexDTO;
+import com.template.dto.template2.Template2IndexDTO;
 import com.template.entity.Template1;
+import com.template.entity.Template2;
 import com.template.repository.Template1Repository;
+import com.template.repository.Template2Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class Template1ServiceImplementation implements Template1Service{
     private final int rowInPage = 5;
 
     @Autowired
-    public Template1ServiceImplementation(Template1Repository repository) {
+    public Template1ServiceImplementation(Template1Repository repository, Template2Repository template2Repository) {
         this.repository = repository;
     }
 
@@ -38,9 +39,8 @@ public class Template1ServiceImplementation implements Template1Service{
     @Override
     public List<Template1IndexDTO> getAllTemplate1(int page, String filter1, String search1, String filter2, String search2, String filter3, String search3) {
         Map<String, Object> filters = processFilters(filter1, search1, filter2, search2, filter3, search3);
-
         int totalPages = getTotalPages(filter1, search1, filter2, search2, filter3, search3);
-        page = Math.max(1, Math.min(page, totalPages)); // Ensuring page number is within valid range
+        page = Math.max(1, Math.min(page, totalPages));
 
         Pageable pageable = PageRequest.of(page - 1, rowInPage, Sort.by("kode"));
         List<Template1> template1List = repository.getAllTemplate1(pageable, (String) filters.get("kode"), (String) filters.get("nama"), (Boolean) filters.get("status"));

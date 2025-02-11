@@ -12,6 +12,7 @@ import com.template.helper.PercentHelper;
 import com.template.repository.Template1Repository;
 import com.template.repository.Template2Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -84,22 +85,41 @@ public class Template2ServiceImplementation implements Template2Service{
 
     private Map<String, Object> processFilters(String... filters) {
         Map<String, Object> filterMap = new HashMap<>();
-        for (int i = 0; i < filters.length; i += 2) {
-            if (!filters[i].isBlank()) {
-                String key = filters[i];
-                String value = filters[i + 1];
+
+        for (int i = 0; i < filters.length - 1; i += 2) {
+            String key = filters[i];
+            String value = filters[i + 1];
+
+            if (key != null && !key.isBlank() && value != null && !value.isBlank()) {
                 switch (key) {
                     case "kodeTemplate1", "kode", "nama" -> filterMap.put(key, value);
-                    case "tanggal" -> filterMap.put(key, LocalDate.parse(value));
-                    case "harga" -> filterMap.put(key, new BigDecimal(value));
-                    case "diskon" -> filterMap.put(key, Double.parseDouble(value) / 100);
+                    case "tanggal" -> {
+                        try {
+                            filterMap.put(key, LocalDate.parse(value));
+                        } catch (Exception e) {
+                            System.out.println("Invalid date format: " + value);
+                        }
+                    }
+                    case "harga" -> {
+                        try {
+                            filterMap.put(key, new BigDecimal(value));
+                        } catch (Exception e) {
+                            System.out.println("Invalid harga format: " + value);
+                        }
+                    }
+                    case "diskon" -> {
+                        try {
+                            filterMap.put(key, Double.parseDouble(value) / 100);
+                        } catch (Exception e) {
+                            System.out.println("Invalid diskon format: " + value);
+                        }
+                    }
                     case "status" -> filterMap.put(key, Boolean.parseBoolean(value));
                 }
             }
         }
         return filterMap;
     }
-
 
     @Override
     public Template2DetailDTO getTemplate2DetailByKode(String kode) {
@@ -163,15 +183,60 @@ public class Template2ServiceImplementation implements Template2Service{
     }
 
     @Override
-    public List<FilterOptionDTO> getAllTemplate1Option() {
-        List<Template1> template1List = template1Repository.getAllTemplate1Option();
-        List<FilterOptionDTO> filterOptionDTOS = new LinkedList<>();
-        for (Template1 template1 : template1List){
-            FilterOptionDTO filterOptionDTO = new FilterOptionDTO();
-            filterOptionDTO.setKode(template1.getKode());
-            filterOptionDTO.setNama(template1.getNama());
-            filterOptionDTOS.add(filterOptionDTO);
-        }
-        return filterOptionDTOS;
+    public int getTotalPagesTemplate2ByTemplate1(String kode, String... filters) {
+        Map<String, Object> filterMap = processFilters(filters);
+        double totalRecords = repository.getTotalPagesTemplate2ByTemplate1(
+                kode,
+                (String) filterMap.get("kode"),
+                (String) filterMap.get("nama"),
+                (LocalDate) filterMap.get("tanggal"),
+                (BigDecimal) filterMap.get("harga"),
+                (Double) filterMap.get("diskon"),
+                (Boolean) filterMap.get("status")
+        );
+        return (int) Math.ceil(totalRecords / rowInPage);
     }
+
+    @Override
+    public List<Template2IndexDTO> getTemplate2ByTemplate1(int page, String kode, String... filters) {
+        Map<String, Object> filterMap = processFilters(filters);
+        int totalPages = getTotalPages(filters);
+        page = Math.max(1, Math.min(page, totalPages));
+
+        Pageable pageable = PageRequest.of(page - 1, rowInPage, Sort.by("kode"));
+        List<Template2> template2List = repository.getTemplate2ByTemplate1(
+                pageable,
+                kode,
+                (String) filterMap.get("kode"),
+                (String) filterMap.get("nama"),
+                (LocalDate) filterMap.get("tanggal"),
+                (BigDecimal) filterMap.get("harga"),
+                (Double) filterMap.get("diskon"),
+                (Boolean) filterMap.get("status")
+        );
+
+        return template2List.stream().map(template2 -> {
+            Template2IndexDTO dto = new Template2IndexDTO();
+            dto.setKode(template2.getKode());
+            dto.setNama(template2.getNama());
+            dto.setTanggal(DateHelper.dateParse(template2.getTanggal(), "dd MMMM yyyy"));
+            dto.setHarga(CurrencyHelper.currencyParse(template2.getHarga()));
+            dto.setDiskon(PercentHelper.percentageParse(template2.getDiskon()));
+            dto.setStatus(template2.getStatus() ? "Aktif" : "Tidak Aktif");
+            return dto;
+        }).toList();
+    }
+
+    @Override
+    public Page<FilterOptionDTO> getAllTemplate1Option(Pageable pageable) {
+        Page<Template1> template1Page = template1Repository.getAllTemplate1Option(pageable);
+
+        return template1Page.map(template1 -> {
+            FilterOptionDTO dto = new FilterOptionDTO();
+            dto.setKode(template1.getKode());
+            dto.setNama(template1.getNama());
+            return dto;
+        });
+    }
+
 }

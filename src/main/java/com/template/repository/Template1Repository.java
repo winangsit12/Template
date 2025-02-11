@@ -1,6 +1,7 @@
 package com.template.repository;
 
 import com.template.entity.Template1;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -46,5 +47,5 @@ public interface Template1Repository extends JpaRepository<Template1, String> {
             WHERE tmp1.deleteDate IS NULL
             AND tmp1.status = true
             """)
-    List<Template1> getAllTemplate1Option();
+    Page<Template1> getAllTemplate1Option(Pageable pageable);
 }

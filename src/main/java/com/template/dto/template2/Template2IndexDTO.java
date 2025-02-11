@@ -1,8 +1,11 @@
 package com.template.dto.template2;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Template2IndexDTO {
     private String kode;
     private String nama;

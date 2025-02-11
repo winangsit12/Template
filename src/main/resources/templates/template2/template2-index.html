@@ -100,25 +100,48 @@
                             <div>
                                 <a th:href="@{/template2(
                                         page=1,
-                                        kodeTemplate1=${kodeTemplate1},
-                                        kode=${kode},
-                                        nama=${nama},
-                                        tanggal=${tanggal},
-                                        harga=${harga},
-                                        diskon=${diskon},
-                                        status=${status}
+                                        filter1=${filter1}, search1=${search1},
+                                        filter2=${filter2}, search2=${search2},
+                                        filter3=${filter3}, search3=${search3},
+                                        filter4=${filter4}, search4=${search4},
+                                        filter5=${filter5}, search5=${search5},
+                                        filter6=${filter6}, search6=${search6},
+                                        filter7=${filter7}, search7=${search7}
                                    )}"
                                    th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&laquo;</a>
 
-                                <a th:href="@{/template2(page=${currentPage - 1}, kodeTemplate1=${kodeTemplate1}, kode=${kode}, nama=${nama}, tanggal=${tanggal}, harga=${harga}, diskon=${diskon}, status=${status} )}"
+                                <a th:href="@{/template2(
+                                        page=${currentPage - 1},
+                                        filter1=${filter1}, search1=${search1},
+                                        filter2=${filter2}, search2=${search2},
+                                        filter3=${filter3}, search3=${search3},
+                                        filter4=${filter4}, search4=${search4},
+                                        filter5=${filter5}, search5=${search5},
+                                        filter6=${filter6}, search6=${search6},
+                                        filter7=${filter7}, search7=${search7}
+                                   )}"
                                    th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&lt;</a>
 
                                 <span th:text="|Page ${currentPage} of ${totalPages}|"></span>
 
-                                <a th:href="@{/template2(page=${currentPage + 1}, kodeTemplate1=${kodeTemplate1}, kode=${kode}, nama=${nama}, tanggal=${tanggal}, harga=${harga}, diskon=${diskon}, status=${status} )}"
+                                <a th:href="@{/template2(page=${currentPage + 1},filter1=${filter1}, search1=${search1},
+                                        filter2=${filter2}, search2=${search2},
+                                        filter3=${filter3}, search3=${search3},
+                                        filter4=${filter4}, search4=${search4},
+                                        filter5=${filter5}, search5=${search5},
+                                        filter6=${filter6}, search6=${search6},
+                                        filter7=${filter7}, search7=${search7}
+                                   )}"
                                    th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&gt;</a>
 
-                                <a th:href="@{/template2(page=${totalPages}, kodeTemplate1=${kodeTemplate1}, kode=${kode}, nama=${nama}, tanggal=${tanggal}, harga=${harga}, diskon=${diskon}, status=${status} )}"
+                                <a th:href="@{/template2(page=${totalPages},filter1=${filter1}, search1=${search1},
+                                        filter2=${filter2}, search2=${search2},
+                                        filter3=${filter3}, search3=${search3},
+                                        filter4=${filter4}, search4=${search4},
+                                        filter5=${filter5}, search5=${search5},
+                                        filter6=${filter6}, search6=${search6},
+                                        filter7=${filter7}, search7=${search7}
+                                   )}"
                                    th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&raquo;</a>
                             </div>
                         </div>

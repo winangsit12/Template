@@ -14,26 +14,19 @@
                 <span> > </span>
                 <span>Detail</span>
             </h3>
-            <form method="post" class="upsert-form" action="">
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <table th:object="${detailKabupatenGrid}">
+            <div class="detail-form">
+                <table th:object="${detailTemplate1Grid}">
                     <tbody>
                     <tr>
-                        <td><label class="label-nama">Provinsi</label></td>
-                        <td>
-                            <p id="provinsi" name="provinsi" th:text="*{provinsi}"></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label class="label-nama">Kode Kabupaten / Kota</label></td>
+                        <td><label class="label-nama">Kode</label></td>
                         <td>
                             <p id="kode" name="kode" th:text="*{kode}"></p>
                         </td>
                     </tr>
                     <tr>
-                        <td><label class="label-nama">Nama Kabupaten / Kota</label></td>
+                        <td><label class="label-nama">Nama</label></td>
                         <td>
-                            <p id="kabupaten" name="kabupaten" th:text="*{kabupaten}"></p>
+                            <p id="nama" name="nama" th:text="*{nama}"></p>
                         </td>
                     </tr>
                     <tr>
@@ -42,9 +35,150 @@
                             <p id="status" name="status" th:text="*{status}"></p>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="part1" class="form-part">
+                                <button type="button" class="toggle-btn" onclick="togglePart('part1')">Filter</button>
+                                <div class="form-content">
+                                    <form method="get" class="filter" th:action="@{/template1/detail}">
+                                        <input type="hidden" name="kode" th:value="${kode}">
+                                        <div class="filter-container">
+                                            <div class="filter-input" data-index="1">
+                                                <button class="filter-button add-filter" type="button"><i class="fas fa-plus"></i></button>
+                                                <select name="filter1" id="filter1" class="filter-select">
+                                                    <option value="">No Specific</option>
+                                                    <option value="kode">Kode</option>
+                                                    <option value="nama">Nama</option>
+                                                    <option value="tanggal">Tanggal</option>
+                                                    <option value="harga">Harga</option>
+                                                    <option value="diskon">Diskon</option>
+                                                    <option value="status">Status</option>
+                                                </select>
+
+                                                <div class="search-container-filter">
+                                                    <input type="text" id="searchText1" name="search1" class="search-filter" style="display:none;">
+
+                                                    <input type="date" id="searchDate1" name="search1" class="search-filter" style="display:none;">
+
+                                                    <div class="input-radio" id="status-container1" style="display:none;">
+                                                        <input type="radio" th:field="${search1}" name="search1" id="status-aktif1" value="true">
+                                                        <label for="status-aktif1">Aktif</label>
+                                                        <input type="radio" th:field="${search1}" name="search1" id="status-tidak-aktif1" value="false">
+                                                        <label for="status-tidak-aktif1">Tidak Aktif</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="filter-button search-button" type="submit">
+                                            Search <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama</th>
+                                    <th>Tanggal</th>
+                                    <th>Harga</th>
+                                    <th>Diskon</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="template2:${template2Grid}" th:object="${template2}">
+                                    <td th:text="*{kode}"></td>
+                                    <td th:text="*{nama}"></td>
+                                    <td th:text="*{tanggal}"></td>
+                                    <td th:text="*{harga}"></td>
+                                    <td th:text="*{diskon}"></td>
+                                    <td th:text="*{status}"></td>
+                                </tr>
+                                <tr th:if="${#lists.size(template2Grid)}==0">
+                                    <td colspan="6">Data Tidak Ditemukan</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="pagination" th:if="${#lists.size(template2Grid)}!=0">
+                                            <div>
+                                                <a th:href="@{/template1/detail(
+                                                        kode=${kode},
+                                                        page=1,
+                                                        filter1=${filter1}, search1=${search1},
+                                                        filter2=${filter2}, search2=${search2},
+                                                        filter3=${filter3}, search3=${search3},
+                                                        filter4=${filter4}, search4=${search4},
+                                                        filter5=${filter5}, search5=${search5},
+                                                        filter6=${filter6}, search6=${search6}
+                                                   )}"
+                                                   th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&laquo;</a>
+
+                                                <a th:href="@{/template1/detail(
+                                                        kode=${kode},
+                                                        page=${currentPage - 1},
+                                                        filter1=${filter1}, search1=${search1},
+                                                        filter2=${filter2}, search2=${search2},
+                                                        filter3=${filter3}, search3=${search3},
+                                                        filter4=${filter4}, search4=${search4},
+                                                        filter5=${filter5}, search5=${search5},
+                                                        filter6=${filter6}, search6=${search6}
+                                                   )}"
+                                                   th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&lt;</a>
+
+                                                <span th:text="|Page ${currentPage} of ${totalPages}|"></span>
+
+                                                <a th:href="@{/template1/detail(
+                                                        kode=${kode},
+                                                        page=${currentPage + 1},
+                                                        filter1=${filter1}, search1=${search1},
+                                                        filter2=${filter2}, search2=${search2},
+                                                        filter3=${filter3}, search3=${search3},
+                                                        filter4=${filter4}, search4=${search4},
+                                                        filter5=${filter5}, search5=${search5},
+                                                        filter6=${filter6}, search6=${search6}
+                                                   )}"
+                                                   th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&gt;</a>
+
+                                                <a th:href="@{/template1/detail(
+                                                        kode=${kode},
+                                                        page=${totalPages},
+                                                        filter1=${filter1}, search1=${search1},
+                                                        filter2=${filter2}, search2=${search2},
+                                                        filter3=${filter3}, search3=${search3},
+                                                        filter4=${filter4}, search4=${search4},
+                                                        filter5=${filter5}, search5=${search5},
+                                                        filter6=${filter6}, search6=${search6}
+                                                   )}"
+                                                   th:attr="onclick=${currentPage >= totalPages} ? 'event.preventDefault()' : ''">&raquo;</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a th:href="@{/template1/form(kode=*{kode})}" class="action-button update-button">
+                                <i class="fas fa-edit" aria-hidden="true"></i> ubah
+                            </a>
+                            <a th:href="@{/template1/delete(kode=*{kode})}" class="action-button delete-button">
+                                <i class="fa fa-trash" aria-hidden="true"></i> hapus
+                            </a>
+                            <a th:href="@{/template1}" class="action-button detail-button">
+                                <i class="fa fa-arrow-left" aria-hidden="true"></i> kembali
+                            </a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-            </form>
+            </div>
         </div>
     </main>
 </div>
