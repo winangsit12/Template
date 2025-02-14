@@ -301,14 +301,13 @@ tbody tr:nth-child(even) {
 }
 
 tfoot td {
-    padding: 10px;
-    border: none;
     text-align: center;
 }
 
 .pagination {
+    padding: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 5px;
     margin-top: 10px;
 }
