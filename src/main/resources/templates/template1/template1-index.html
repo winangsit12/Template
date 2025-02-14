@@ -100,7 +100,20 @@
                                    )}"
                                    th:attr="onclick=${currentPage <= 1} ? 'event.preventDefault()' : ''">&lt;</a>
 
-                                <span th:text="|Page ${currentPage} of ${totalPages}|"></span>
+                                <span>
+                                    <form th:action="@{/template1}" method="get" style="display: inline;">
+                                            <input type="number" name="page" min="1" max="${totalPages}" th:value="${currentPage}"
+                                                   onblur="this.form.submit()"
+                                                   onkeydown="if(event.key === 'Enter'){this.form.submit();}">
+                                            <input type="hidden" name="filter1" th:value="${filter1}">
+                                            <input type="hidden" name="search1" th:value="${search1}">
+                                            <input type="hidden" name="filter2" th:value="${filter2}">
+                                            <input type="hidden" name="search2" th:value="${search2}">
+                                            <input type="hidden" name="filter3" th:value="${filter3}">
+                                            <input type="hidden" name="search3" th:value="${search3}">
+                                    </form>
+                                        <span th:text="| of ${totalPages} |"></span>
+                                </span>
 
                                 <a th:href="@{/template1(
                                        page=${currentPage + 1},

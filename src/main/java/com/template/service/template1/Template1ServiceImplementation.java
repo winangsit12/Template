@@ -22,7 +22,7 @@ import java.util.Map;
 @Service
 public class Template1ServiceImplementation implements Template1Service{
     private final Template1Repository repository;
-    private final int rowInPage = 5;
+    private final int rowInPage = 1;
 
     @Autowired
     public Template1ServiceImplementation(Template1Repository repository, Template2Repository template2Repository) {
