@@ -739,3 +739,19 @@ h3 a:hover {
 .filter-input .search-container-filter{
     margin: 10px
 }
+
+.pagination input {
+    width: 40px;  /* Lebar input yang lebih cocok */
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+/* Menghilangkan tombol up/down pada input number */
+.pagination input[type="number"]::-webkit-outer-spin-button,
+.pagination input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;  /* Chrome, Safari, Opera */
+    margin: 0;
+}
